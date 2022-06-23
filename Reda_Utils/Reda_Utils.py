@@ -110,7 +110,7 @@ class Nav_utils(object):
     + w_wheels_Twist_diferencial -> Calculo de Velocidad Lineal X y Velocidad Angular Z a partir de las velocidades angulares de las ruedas.
 
     """
-    config=leer_config('')
+    config=leer_Config('')
     vel_lineal=str()
     vel_lineal_max=config.Navegacion['Velocidad lineal max']
     vel_lineal=vel_lineal_max
