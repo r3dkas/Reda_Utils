@@ -1,6 +1,12 @@
 Autor: REDA KASTITE
-version: 1.0
+version: 1.0.1
 Python_version: 2.7.17
+
+Instalacion:
+    
+    + pip install Reda-Utils==<version> 
+    + add ' export PYTHONPATH="${PYTHONPATH}:/usr/local/lib/python2.7/site-packages:/usr/lib/python2.7/site-packages" ' to bashrc
+    + import Reda_Utils.Reda_Utils
 
 Coleccion de funciones. 
     
