@@ -11,7 +11,7 @@ setuptools.setup(
     description="Paquete funciones utiles Navegacion Robot",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/r3dkas",
+    url="https://github.com/r3dkas/Reda_Utils",
     packages=setuptools.find_packages(),
     classifiers=(
         "Programming Language :: Python :: 2",
