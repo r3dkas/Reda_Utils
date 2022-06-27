@@ -2,7 +2,7 @@
 
 """
 Autor: REDA KASTITE
-version: 1.0
+version: 1.02
 Python_version: 2.7.17
 """
 
@@ -22,6 +22,45 @@ import ast
 #            else:
 #                setattr(self, key, DictObj(val) if isinstance(val, dict) else val)
 
+class General_clase(object):
+    Activar_mensajes=bool
+    Diametro_ruedas=float
+    Distancia_entre_ruedas=float
+    Mapa=str
+    Robot=str
+    Posicion_cargador={}
+    
+class Navegacion_clase(object):
+
+    Velocidad_lineal_max= float
+    Velocidad_lineal_max_pto_final= float
+    Velocidad_lineal_min= float
+
+    Velocidad_angular_max=float
+    Velocidad_angular_max_pto_final= float
+    Velocidad_angular_min= float
+
+    Margen_desplazamiento_intermedio= float
+    Margen_desplazamiento_final= float
+
+    Margen_giro_intermedio= float
+    Margen_giro_final= float
+
+class Obstaculos_clase(object):
+
+    Deteccion=str
+    Radio_deteccion= float 
+    Largo=float
+    Ancho=float
+
+    Limite_puntos= int
+
+class Config_clase(object):
+
+    General=General_clase()
+    Navegacion=Navegacion_clase()
+    Obstaculos=Obstaculos_clase()
+
 
 class dotdict(dict):
     """dot.notation access to dictionary attributes"""
@@ -31,7 +70,7 @@ class dotdict(dict):
 
 def leer_Config(path=str):
     """
-    Lee el archivo yaml de Configuracion, lo publica en ROS param server y lo devuelve en formato dictionary.
+    Lee el archivo yaml de Configuracion, lo publica en ROS param server y lo devuelve como objeto con los parametros como atributos.
 
     @parametros -------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -45,16 +84,48 @@ def leer_Config(path=str):
     #os.system(cmd)
 
     parametros=rospy.get_param('/Configuracion')
-    global config
-    config={}
-    config=dotdict(config)
-    config = dotdict(parametros)
+    global configuracion
+    configuracion={}
+    configuracion=dotdict(configuracion)
+    configuracion = dotdict(parametros)
 
-    config.Obstaculos=dotdict(parametros['Obstaculos'])
+    configuracion.Obstaculos=dotdict(parametros['Obstaculos'])
 
-    config.General=dotdict(parametros['General'])
+    configuracion.General=dotdict(parametros['General'])
 
-    config.Navegacion=dotdict(parametros['Navegacion'])
+    configuracion.Navegacion=dotdict(parametros['Navegacion'])
+
+
+    config=Config_clase()
+
+    config.Obstaculos.Ancho=configuracion.Obstaculos['Ancho']
+    config.Obstaculos.Deteccion=configuracion.Obstaculos['Deteccion']
+    config.Obstaculos.Largo=configuracion.Obstaculos['Largo']
+    config.Obstaculos.Limite_puntos=configuracion.Obstaculos['Limite puntos']
+    config.Obstaculos.Radio_deteccion=configuracion.Obstaculos['Radio deteccion']
+
+
+    config.General.Activar_mensajes=configuracion.General['Activar mensajes']
+    config.General.Diametro_ruedas=configuracion.General['Diametro ruedas']
+    config.General.Distancia_entre_ruedas=configuracion.General['Distancia entre ruedas']
+    config.General.Mapa=configuracion.General['Mapa']
+    config.General.Robot=configuracion.General['Robot']
+    config.General.Posicion_cargador=configuracion.General['Posicion cargador']
+
+
+
+    config.Navegacion.Velocidad_lineal_max= configuracion.Navegacion['Velocidad lineal max']
+    config.Navegacion.Velocidad_lineal_max_pto_final= configuracion.Navegacion['Velocidad lineal max pto_final']
+    config.Navegacion.Velocidad_lineal_min= configuracion.Navegacion['Velocidad lineal min']
+    
+    config.Navegacion.Velocidad_angular_max=configuracion.Navegacion['Velocidad angular max']
+    config.Navegacion.Velocidad_angular_max_pto_final= configuracion.Navegacion['Velocidad angular max pto_final']
+    config.Navegacion.Velocidad_angular_min= configuracion.Navegacion['Velocidad angular min']
+    
+    config.Navegacion.Margen_desplazamiento_intermedio= configuracion.Navegacion['Margen desplazamiento intermedio']
+    config.Navegacion.Margen_desplazamiento_final= configuracion.Navegacion['Margen desplazamiento final']
+    config.Navegacion.Margen_giro_intermedio= configuracion.Navegacion['Margen giro intermedio']
+    config.Navegacion.Margen_giro_final= configuracion.Navegacion['Margen giro final']
 
     #res_obj = DictObj(parametros)
 
@@ -111,18 +182,18 @@ class Nav_utils(object):
 
     """
     config=leer_Config('')
-    vel_lineal=str()
-    vel_lineal_max=config.Navegacion['Velocidad lineal max']
+
+    vel_lineal_max=config.Navegacion.Velocidad_lineal_max
     vel_lineal=vel_lineal_max
-    vel_lineal_min=config.Navegacion['Velocidad lineal min']
+    vel_lineal_min=config.Navegacion.Velocidad_lineal_min
 
     
-    vel_angular_max=config.Navegacion['Velocidad angular max']
+    vel_angular_max=config.Navegacion.Velocidad_angular_max
     vel_giro=vel_angular_max
-    vel_angular_min=config.Navegacion['Velocidad angular min']
+    vel_angular_min=config.Navegacion.Velocidad_angular_min
 
-    diametro_rueda=config.General['Diametro ruedas']
-    dist_entre_ruedas=config.General['Distancia entre ruedas']
+    diametro_rueda=config.General.Diametro_ruedas
+    dist_entre_ruedas=config.General.Distancia_entre_ruedas
 
 
     def cuadrante(self,angulo=float):
