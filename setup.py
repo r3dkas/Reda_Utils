@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="Reda_Utils",
-    version="1.0.2",
+    version="1.1.0",
     author="Reda Kastite",
     author_email="reda_kastite@hotmail.com",
     description="Paquete funciones utiles Navegacion Robot",
