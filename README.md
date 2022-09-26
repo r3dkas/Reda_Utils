@@ -1,5 +1,5 @@
 Autor: REDA KASTITE
-version: 1.0
+version: 1.1.0
 Python_version: 2.7.17
 
 Coleccion de funciones. 
@@ -25,3 +25,5 @@ Coleccion de funciones.
         + giro -> Calculo de velocidades angulares de ruedas especifico para giros sobre el propio eje del robot.
 
         + w_wheels_Twist_diferencial -> Calculo de Velocidad Lineal X y Velocidad Angular Z a partir de las velocidades angulares de las ruedas.
+
+        + vels_a_w -> Calculo de las velocidades angulares de las ruedas a partir  de Velocidad Lineal X y Velocidad Angular Z.

@@ -2,7 +2,7 @@
 
 """
 Autor: REDA KASTITE
-version: 1.02
+version: 1.1.0
 Python_version: 2.7.17
 """
 
@@ -25,6 +25,7 @@ import ast
 class General_clase(object):
     Activar_mensajes=bool
     Diametro_ruedas=float
+    Modo_Localizacion= str
     Distancia_entre_ruedas=float
     Mapa=str
     Robot=str
@@ -60,7 +61,6 @@ class Config_clase(object):
     General=General_clase()
     Navegacion=Navegacion_clase()
     Obstaculos=Obstaculos_clase()
-
 
 class dotdict(dict):
     """dot.notation access to dictionary attributes"""
@@ -107,6 +107,7 @@ def leer_Config(path=str):
 
     config.General.Activar_mensajes=configuracion.General['Activar mensajes']
     config.General.Diametro_ruedas=configuracion.General['Diametro ruedas']
+    config.General.Modo_Localizacion=configuracion.General['Modo Localizacion']
     config.General.Distancia_entre_ruedas=configuracion.General['Distancia entre ruedas']
     config.General.Mapa=configuracion.General['Mapa']
     config.General.Robot=configuracion.General['Robot']
@@ -264,8 +265,8 @@ class Nav_utils(object):
             print("ERROR : VALOR DE VARIABLE 'dir' NO VALIDO")
             return 0,0
 
-        wd=dir*(vel_lineal/diametro_rueda/2)*2
-        wi=dir*(vel_lineal/diametro_rueda/2)*2
+        wd=dir*(vel_lineal/diametro_rueda)
+        wi=dir*(vel_lineal/diametro_rueda)
 
         return wd,wi
 
@@ -357,4 +358,24 @@ class Nav_utils(object):
 
         return vel_msg_Twist
 
-    
+    def vels_a_w(self,velL=float,R=float,diametro_rueda =  diametro_rueda,dist_entre_ruedas =  dist_entre_ruedas):
+
+        """
+        Calculo de las velocidades angulares de las ruedas a partir de Velocidad Lineal X y Velocidad Angular Z.
+
+        @parametros -------------------------------------------------------------------------------------------------------------------------------------------------
+
+        + diametro_rueda,dist_entre_ruedas -> Diametro de ruedas y distancia entre ruedas. Por defecto el valor en param server.
+
+        + vel_lineal -> Velocidades lineales. 
+
+        + vel_angular -> Velocidades angulares. 
+
+        + wizq,wder -> Velocidades diferenciales de las ruedas.
+
+        """
+
+        wd=(velL-R*dist_entre_ruedas)/diametro_rueda
+        wi=(velL+R*dist_entre_ruedas)/diametro_rueda
+
+        return wd,wi
